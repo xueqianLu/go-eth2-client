@@ -30,12 +30,12 @@ type AttestationRewards struct {
 
 // IdealAttestationRewards are the ideal attestation rewards for an attestation.
 type IdealAttestationRewards struct {
-	EffectiveBalance phase0.Gwei
-	Head             phase0.Gwei
-	Target           phase0.Gwei
-	Source           phase0.Gwei
-	InclusionDelay   *phase0.Gwei
-	Inactivity       phase0.Gwei
+	EffectiveBalance int64
+	Head             int64
+	Target           int64
+	Source           int64
+	InclusionDelay   *int64
+	Inactivity       int64
 }
 
 // idealAttestationRewardsJSON is the spec representation of the struct.
@@ -77,29 +77,29 @@ func (i *IdealAttestationRewards) UnmarshalJSON(input []byte) error {
 	if data.EffectiveBalance == "" {
 		return errors.New("effective balance missing")
 	}
-	effectiveBalance, err := strconv.ParseUint(data.EffectiveBalance, 10, 64)
+	effectiveBalance, err := strconv.ParseInt(data.EffectiveBalance, 10, 64)
 	if err != nil {
 		return errors.Wrap(err, "invalid value for effective balance")
 	}
-	i.EffectiveBalance = phase0.Gwei(effectiveBalance)
+	i.EffectiveBalance = effectiveBalance
 
 	if data.Head == "" {
 		return errors.New("head missing")
 	}
-	head, err := strconv.ParseUint(data.Head, 10, 64)
+	head, err := strconv.ParseInt(data.Head, 10, 64)
 	if err != nil {
 		return errors.Wrap(err, "invalid value for head")
 	}
-	i.Head = phase0.Gwei(head)
+	i.Head = head
 
 	if data.Target == "" {
 		return errors.New("target missing")
 	}
-	target, err := strconv.ParseUint(data.Target, 10, 64)
+	target, err := strconv.ParseInt(data.Target, 10, 64)
 	if err != nil {
 		return errors.Wrap(err, "invalid value for target")
 	}
-	i.Target = phase0.Gwei(target)
+	i.Target = target
 
 	if data.Source == "" {
 		return errors.New("source missing")
@@ -108,25 +108,25 @@ func (i *IdealAttestationRewards) UnmarshalJSON(input []byte) error {
 	if err != nil {
 		return errors.Wrap(err, "invalid value for source")
 	}
-	i.Source = phase0.Gwei(source)
+	i.Source = source
 
 	if data.InclusionDelay != "" {
-		inclusionDelay, err := strconv.ParseUint(data.InclusionDelay, 10, 64)
+		inclusionDelay, err := strconv.ParseInt(data.InclusionDelay, 10, 64)
 		if err != nil {
 			return errors.Wrap(err, "invalid value for inclusion delay")
 		}
-		tmp := phase0.Gwei(inclusionDelay)
+		tmp := inclusionDelay
 		i.InclusionDelay = &tmp
 	}
 
 	if data.Inactivity == "" {
 		return errors.New("inactivity missing")
 	}
-	inactivity, err := strconv.ParseUint(data.Inactivity, 10, 64)
+	inactivity, err := strconv.ParseInt(data.Inactivity, 10, 64)
 	if err != nil {
 		return errors.Wrap(err, "invalid value for inactivity")
 	}
-	i.Inactivity = phase0.Gwei(inactivity)
+	i.Inactivity = inactivity
 
 	return nil
 }
@@ -144,13 +144,13 @@ func (i *IdealAttestationRewards) String() string {
 // ValidatorAttestationRewards are the ideal attestation rewards for a validator.
 type ValidatorAttestationRewards struct {
 	ValidatorIndex phase0.ValidatorIndex
-	Head           phase0.Gwei
+	Head           int64
 	// Target can be negative, so it is an int64 (but still a Gwei value).
 	Target int64
 	// Source can be negative, so it is an int64 (but still a Gwei value).
 	Source         int64
-	InclusionDelay *phase0.Gwei
-	Inactivity     phase0.Gwei
+	InclusionDelay *int64
+	Inactivity     int64
 }
 
 // validatorAttestationRewardsJSON is the spec representation of the struct.
@@ -201,11 +201,11 @@ func (v *ValidatorAttestationRewards) UnmarshalJSON(input []byte) error {
 	if data.Head == "" {
 		return errors.New("head missing")
 	}
-	head, err := strconv.ParseUint(data.Head, 10, 64)
+	head, err := strconv.ParseInt(data.Head, 10, 64)
 	if err != nil {
 		return errors.Wrap(err, "invalid value for head")
 	}
-	v.Head = phase0.Gwei(head)
+	v.Head = head
 
 	if data.Target == "" {
 		return errors.New("target missing")
@@ -224,22 +224,22 @@ func (v *ValidatorAttestationRewards) UnmarshalJSON(input []byte) error {
 	}
 
 	if data.InclusionDelay != "" {
-		inclusionDelay, err := strconv.ParseUint(data.InclusionDelay, 10, 64)
+		inclusionDelay, err := strconv.ParseInt(data.InclusionDelay, 10, 64)
 		if err != nil {
 			return errors.Wrap(err, "invalid value for inclusion delay")
 		}
-		tmp := phase0.Gwei(inclusionDelay)
+		tmp := inclusionDelay
 		v.InclusionDelay = &tmp
 	}
 
 	if data.Inactivity == "" {
 		return errors.New("inactivity missing")
 	}
-	inactivity, err := strconv.ParseUint(data.Inactivity, 10, 64)
+	inactivity, err := strconv.ParseInt(data.Inactivity, 10, 64)
 	if err != nil {
 		return errors.Wrap(err, "invalid value for inactivity")
 	}
-	v.Inactivity = phase0.Gwei(inactivity)
+	v.Inactivity = inactivity
 
 	return nil
 }
